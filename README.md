@@ -7,3 +7,4 @@ when you run program you should make 4 things
 4- write the goal country that you want to arrive to it
 
 NOTE : you should write the country name as it written in  excle file sheet else it will make run error 
+also the day name write as in array Days =>["sat","sun","mon","tue","wed","thu","fri"]
