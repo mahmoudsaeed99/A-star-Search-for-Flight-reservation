@@ -120,13 +120,14 @@ def getChild(source, dayList , goal):
                 checkIndex = Days.index(i)
                 if(checkIndex >= firstDayIndex and checkIndex <= secondDayIndex):
                     if(source.day==""):
-                        firstDayIndex  = checkIndex                                
+                        firstDayIndex  = checkIndex
+                        source.arrivalTime-=1                                
                     if(obj.departureTime+((checkIndex-firstDayIndex)*60*24) > source.arrivalTime):
                         node = Node()
-                        waitingTime = obj.departureTime - source.arrivalTime
+                        waitingTime = ((checkIndex-firstDayIndex)*60*24)+ obj.departureTime - source.arrivalTime
                         if(obj.arrivalTime >= obj.departureTime):
                             if(waitingTime < 0):
-                                waitingTime = obj.departureTime+60*24 - source.arrivalTime
+                                waitingTime =((checkIndex-firstDayIndex)*60*24)+ obj.departureTime+60*24 - source.arrivalTime
                             node.g = obj.arrivalTime - obj.departureTime
                             node.day = i
                         else:
@@ -137,7 +138,7 @@ def getChild(source, dayList , goal):
                                 break
                             node.day = Days[checkIndex]
                         node.g+=source.g+source.h+waitingTime    
-                        if(checkIndex <= secondDayIndex):    
+                        if(checkIndex <= secondDayIndex):
                             node.flightName = obj.flightNumber
                             node.cityName = obj.destinationCity
                             node.departureTime = obj.departureTime
@@ -193,9 +194,8 @@ def aStar(start,goal,dayList):
         else:
             children =getChild(current,dayList,goal)
             for i in children:
-                
                 openlist.append(i)
-                      
+                     
         closelist.append(current.cityName)
     
     return []       
@@ -222,7 +222,4 @@ if __name__ == '__main__':
         lk = aStar(sourceCity,goalCity,[Days[index1],Days[index2]])
     for i in range(len(lk)-1):
         print("step",i+1,": use flight ",lk[i+1].flightName,"from ",lk[i].cityName," to ",lk[i+1].cityName," Departure time ",lk[i+1].depTime," arrival time ",lk[i+1].arrTime," in",lk[i+1].day)
-
-
-
-    
+ 
